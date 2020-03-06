@@ -77,6 +77,6 @@ def scrape_nytimes_links(end_date, start_date, driver):
         time.sleep(60)
 
 if __name__ == '__main__':
-    scrape_nytimes_links(start_date=20200305, 
-                         end_date=20200305, 
+    scrape_nytimes_links(start_date=20200306, 
+                         end_date=20200306, 
                          driver=webdriver.Firefox())
