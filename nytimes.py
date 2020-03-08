@@ -7,24 +7,8 @@ import pandas as pd
 import time
 from datetime import datetime
 
-def update_articles_table(links, site):
-    bad_links = []
-    with sqlite3.connect('data/newspaper.db') as conn:
-        c = conn.cursor()
-        for link in links:
-            c.execute("""SELECT link
-                        FROM articles
-                        WHERE link="{}"
-                        """.format(link))
-            
-            result = c.fetchone()
-            if result:
-                print("link already exists: {}".format(link))
-                bad_links.append(link)
-            else:
-                c.execute("INSERT INTO articles VALUES (?, ?)", (site, link))
-                conn.commit()
-        return bad_links 
+from util import update_articles_table
+
 
 def scrape_nytimes_links(end_date, start_date, driver):
     url = 'https://www.nytimes.com/search?dropmab=false&endDate={}&query=coronavirus&sort=newest&startDate={}&types=article'.format(end_date, start_date)
@@ -77,6 +61,6 @@ def scrape_nytimes_links(end_date, start_date, driver):
         time.sleep(60)
 
 if __name__ == '__main__':
-    scrape_nytimes_links(start_date=20200306, 
-                         end_date=20200306, 
+    scrape_nytimes_links(start_date=20200308, 
+                         end_date=20200308, 
                          driver=webdriver.Firefox())

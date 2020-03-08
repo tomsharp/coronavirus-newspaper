@@ -7,6 +7,8 @@ import pandas as pd
 import time
 from datetime import datetime
 
+from util import update_articles_table
+
 def scrape_cnn_links(driver):
     els = driver.find_elements_by_class_name('cnn-search__results-list')
     links = []
@@ -18,28 +20,10 @@ def scrape_cnn_links(driver):
         links.append(link)
     return links
 
-def update_articles_table(links, site):
-    bad_links = []
-    with sqlite3.connect('data/newspaper.db') as conn:
-        c = conn.cursor()
-        for link in links:
-            c.execute("""SELECT link
-                        FROM articles
-                        WHERE link="{}"
-                        """.format(link))
-            
-            result = c.fetchone()
-            if result:
-                print("link already exists: {}".format(link))
-                bad_links.append(link)
-            else:
-                c.execute("INSERT INTO articles VALUES (?, ?)", (site, link))
-                conn.commit()
-        return bad_links 
-
-driver = webdriver.Firefox()
 
 if __name__ == '__main__':
+    driver = webdriver.Firefox()
+
     for i in range(0, 15):
         print(i)
         
