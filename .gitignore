@@ -1,5 +1,4 @@
 .ipynb_checkpoints/
-__pycache__/
 geckodriver.exe
 geckodriver.log
 chromedriver.exe
